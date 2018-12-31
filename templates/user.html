@@ -1,0 +1,348 @@
+{% extends "index.html" %}
+
+
+{% block title %}Hello, {{ fullname }}{% endblock %}
+
+
+{% block body %}
+
+{% if tag!='Super User'%}
+<h1>Info</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <input id="userID" type="submit" value="ID">
+            </th>
+            <th style="text-indent:3em" data-field="Name">
+                <input id="userName" type="submit" value="Name">
+            </th>
+            <th style="text-indent:3em" data-field="Email">
+                <input id="userEmail" type="submit" value="Email">
+            </th>
+            <th style="text-indent:3em" data-field="Sex">
+                <input id="userSex" type="submit" value="Sex">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <a href="#">
+        <tr>
+            <td>{{ profile.0.0 }}</td>
+            <td style="text-indent:3em">{{ profile.0.1 + ' ' + profile.0.2}}</td>
+            <td style="text-indent:3em">{{ profile.0.3 }}</td>
+            <td style="text-indent:3em">{{ profile.0.4.decode("ascii") }}</td>
+        </tr>
+        </a>
+    </tbody>
+</table>
+</br></br>
+<h1>The showings you attend</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/user/idShowing" method="post">
+                    <input type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/user/MovieName" method="post">
+                    <input type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="time">
+                <form action="/user/ShowingDateTime" method="post">
+                    <input type="submit" value="Date">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="rating">
+                <form action="/user/Rating" method="post">
+                    <input type="submit" value="Rating">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in history %}
+            <a href="#">
+            <tr>
+                <td>{{ item.0 }}</td>
+                <td style="text-indent:3em">{{ item.1 }}</td>
+                <td style="text-indent:3em">{{ item.2 }}</td>
+                <td style="text-indent:3em">{{ item.3 }}</td>
+            </tr>
+            </a>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<h1>Customer</h1>
+<table>
+    <thead>
+        <tr>
+            <th>
+                <form action="/admin/idCustomer" method="post">
+                    <input type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em">
+                <form action="/admin/FirstName" method="post">
+                    <input type="submit" value="First Name">
+                </form>
+            </th>
+            <th style="text-indent:3em">
+                <form action="/admin/LastName" method="post">
+                    <input type="submit" value="Last Name">
+                </form>
+            </th>
+            <th style="text-indent:3em">
+                <form action="/admin/EmailAddress" method="post">
+                    <input type="submit" value="Date">
+                </form>
+            </th>
+            <th style="text-indent:3em">
+                <form action="/admin/Sex" method="post">
+                    <input type="submit" value="Sex">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        <a href="#">
+        <tr>
+            <td>{{ customer.0 }}</td>
+            <td style="text-indent:3em">{{ customer.1 }}</td>
+            <td style="text-indent:3em">{{ customer.2}}</td>
+            <td style="text-indent:3em">{{ customer.3 }}</td>
+            <td style="text-indent:3em">{{ customer.4.decode("ascii") }}</td>
+        </tr>
+        {% endfor %}
+        </a>
+    </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block operator %}
+
+{% if tag!='Super User'%}
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-rating">
+    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+    RATING</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-selfedit">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT YOUR ACCOUNT</br>
+</span>
+
+
+<!-- Modal Rating -->
+<div class="modal fade modal-ext" id="modal-rating" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="<user>/addRating" method="post">
+                <input name="customerId" type="hidden" value = "{{fullname}}" />
+                <div class="modal-body">
+                    Showing:
+                    <select name="showingToRate">
+                       {% for item in history %}
+                            {% if item.2 %}
+                           <option value={{item.0}}>{{item.1 + ' ' + item.2|string }}</option>
+                           {% endif %}
+                       {% endfor %}
+                    </select>
+                    <br><br>
+                    <div class="md-form">
+                        <input type="text" id="rating" class="form-control" name="rating" value="{{request.form.rating}}">
+                        <label for="rating">Showing Rating</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">RATE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal EditAccount -->
+<div class="modal fade modal-ext" id="modal-selfedit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="<user>/selfeditAccount" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">EDIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+{% else %}
+
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-addUser">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-removeUser">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-editUser">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-addUser" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="admin/addUser" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input name="customer_id" id="customer_id" type="text" value="{{request.form.customer_id }}">
+                        <label for="customer_id">Customer ID</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-removeUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="admin/removeUser" method="post">
+            <div class="modal-body">
+                Select the account to delete:
+                <select name="customer_id">
+                {% for customer in customers %}
+                    <option value={{customer.0}}>{{customer.0|string + ' ' + customer.1 + ' ' + customer.2}}</option>
+                {% endfor %}
+                </select>
+                <br><br>
+                <div class="md-form">
+                    <input type="text" id="customerID" class="form-control" name="customerId" value="{{request.form.customerId}}">
+                    <label for="customerId">Put Customer ID to confirm</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">REMOVE</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+
+<!-- Modal EditallAccount -->
+<div class="modal fade modal-ext" id="modal-editUser" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="admin/editUser" method="post">
+                <div class="modal-body">
+                    Select the account to edit:
+                    <select name="userId">
+                    {% for customer in customers %}
+                        <option value={{customer.0}}>{{customer.0|string}}</option>
+                    {% endfor %}
+                    </select>
+                    <br><br>
+                    <div class="md-form">
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">EDIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+{% endif %}
+<a class="waves-light" href="{{ url_for('main') }}">
+    <i class="fa fa-external-link" aria-hidden="true"></i>
+    LOGOUT</br>
+</a>
+
+{% endblock %}

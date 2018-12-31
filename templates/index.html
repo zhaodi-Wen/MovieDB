@@ -1,0 +1,90 @@
+<!DOCTYPE>
+
+<html lang="en">
+
+<head>
+    <title>MovieDB</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href={{ url_for( 'static', filename='css/bootstrap.css' ) }} rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href={{ url_for( 'static', filename='css/mdb.css' ) }} rel="stylesheet">
+    <link href={{ url_for( 'static', filename='css/style.css' ) }} rel="stylesheet">
+</head>
+
+<body>
+
+    <!--Navigation & Intro-->
+
+    <!--Navbar-->
+    <nav class="navbar navbar-dark navbar-fixed-top" style="box-shadow:0 2px 5px 0 rgba(22,33,44,0),0 2px 10px 0 rgba(0,0,0,.0);">
+
+        <!-- Collapse button-->
+        <button class="navbar-toggler hidden-lg" type="button" data-toggle="collapse" data-target="#collapseEx" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa fa-bars"></i></button>
+        <div class="container">
+            <!--Collapse content-->
+            <div class="collapse navbar-toggleable-xs" id="collapseEx">
+                <!--Navbar Brand-->
+                <a class="navbar-brand" href="#" target="_blank">MovieDB</a>
+                <!--Links-->
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'moviePage')}}>Movie <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'showingPage')}}>Showing <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'genrePage')}}>Genre <span class="sr-only">(current)</span></a></li>
+                    {% if tag=='Super User' %}
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'attendPage')}}>Attend <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'roomPage')}}>Room <span class="sr-only">(current)</span></a></li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={% if tag=='User' %}{{ url_for( 'main')}}{% else %}{{ url_for( 'userPage', username=tag)}}{% endif %}>
+                            {{ tag }}
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.Collapse content-->
+        </div>
+    </nav>
+    <!--/.Navbar-->
+    <!--Mask-->
+    <div class="view hm-black-strong">
+        <div class="full-bg-img flex-center" style="overflow: auto;scrollbar-arrow-color: #01FF70">
+            <div class="container">
+                <div class="col-sm-10">
+                    <div class="white-text text-xs-center" style="margin-bottom:40px;">
+                        <h2>{% block title %}{% endblock %}</h2>
+                    </div>
+                    {% block body %} {% endblock %}
+                </div>
+                <div class="col-sm-2" style="background-color:transparent; color:white; position:absolute; top:178px; right:72px; border-right:2px solid white;">
+                    {% block operator %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.Mask-->
+
+
+</body>
+<!-- SCRIPTS -->
+
+<!-- JQuery -->
+<script type="text/javascript" src={{ url_for( 'static', filename='js/jquery-3.1.1.min.js' ) }}></script>
+<script type="text/javascript" src={{ url_for( 'static', filename='js/main.js' ) }}></script>
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src={{ url_for( 'static', filename='js/tether.min.js' ) }}></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src={{ url_for( 'static', filename='js/bootstrap.min.js' ) }}></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src={{ url_for( 'static', filename='js/mdb.min.js' ) }}></script>
+
+
+
+</html>

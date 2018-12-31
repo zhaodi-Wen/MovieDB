@@ -1,0 +1,272 @@
+{% extends "index.html" %}
+
+{% block body %}
+<h1>Showing</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/showing/idShowing" method="post">
+                    <input id="showingSortByID" type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/showing/MovieName" method="post">
+                    <input id="showingSortByName" type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="date">
+                <form action="/showing/ShowingDateTime" method="post">
+                    <input id="showingSortByDate" type="submit" value="Date">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="room">
+                <form action="/showing/TheatreRoom_RoomNumber" method="post">
+                    <input id="showingSortByRoom" type="submit" value="Room">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="price">
+                <form action="/showing/TicketPrice" method="post">
+                    <input id="showingSortByPrice" type="submit" value="Price">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for show in showings %}
+            <a href="#">
+                <tr>
+                    <td>{{ show.0 }}</td>
+                    <td style="text-indent:3em">{{ show.6 }}</td>
+                    <td style="text-indent:3em">{{ show.1 }}</td>
+                    <td style="text-indent:3em">{{ show.3 }}</td>
+                    <td style="text-indent:3em">{{ show.4 }}</td>
+                </tr>
+            </a>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+
+
+
+{% block operator %}
+
+{% if tag!='Super User' %}
+<span class="waves-light" data-toggle="modal" data-target="#modal-search">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    SEARCH</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-buy">
+    <i class="fa fa-check" aria-hidden="true"></i>
+    BUY TICKET</br>
+</span>
+
+
+
+<!--############################################################################################ -->
+
+<!-- Modal Search -->
+<div class="modal fade modal-ext" id="modal-search" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px;">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="/showing/search" method="POST">
+                <div class="modal-body">
+                    Genre:
+                    </br></br>
+                    <select name="genre">
+{#                       {% for tuple in genres %}#}
+                         {% for genre in genres %}
+                           <option value={{genre}}>{{genre}}</option>
+{#                         {% endfor %}#}
+                       {% endfor %}
+                    </select>
+                    </br></br>
+                    Start Date:
+                    </br></br>
+                    <select name="startDate">
+                       {% for tuple in dates %}
+                         {% for startDate in tuple %}
+                           <option value={{startDate}}>{{startDate}}</option>
+                         {% endfor %}
+                       {% endfor %}
+                    </select>
+                    </br></br>
+                    End Date:
+                    </br></br>
+                    <select name="endDate">
+                       {% for tuple in dates %}
+                         {% for endDate in tuple %}
+                           <option value={{endDate}}>{{endDate}}</option>
+                         {% endfor %}
+                       {% endfor %}
+                    </select>
+                    </br></br>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <input style="margin-left:18px;" type="checkbox" name="available" value="Available"> Available
+                    </br>
+                    <button style="position:relative; float:right; top:-36px;" type="submit" class="btn btn-unique waves-effect" value="Search">SEARCH</button>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Buy -->
+<div class="modal fade modal-ext" id="modal-buy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="showing/purchaseTicket" method="post">
+                <div class="modal-body">
+                    Showing to buy:
+                    <br><br>
+                    <select name="showingToPurchase">
+                        {% for show in showings %}
+                           <option value={{show.0}}>{{show.6 + '  ' + show.1|string}}</option>
+                       {% endfor %}
+                    </select>
+                    <br><br>
+                    Buy for:
+                    <br><br>
+                    <select name="purchaseCustomer">
+                        {% for customer in customers %}
+                           <option value={{customer.0}}>{{customer.1 + ' ' + customer.2}}</option>
+                       {% endfor %}
+                    </select>
+                    <br><br>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">BUY</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+{% else %}
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="showing/addShow" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
+                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
+                        <label for="showingRoom">Room</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <label for="showingPrice">Price</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="showing/removeShow" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
+                        <label for="showingID">Showing ID</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">REMOVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="showing/editShow" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
+                        <label for="showingID">Showing ID</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
+                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
+                        <label for="showingRoom">Room</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <label for="showingPrice">Price</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">MODIFY</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

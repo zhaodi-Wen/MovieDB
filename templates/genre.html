@@ -1,0 +1,140 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+<h1> Genre </h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+
+                <input id="showingSortByID" type="submit" value="Genre">
+            </th>
+            <th data-field="id" style="text-indent:3em">
+                <input id="showingSortByID" type="submit" value="Movie">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for genre in genres %}
+        {% if genre.0 %}
+        <a href="#">
+            <tr>
+                <td>{{ genre.0 }}</td>
+                <td style="text-indent:3em">{{ genre.2 }}</td>
+            </tr>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+
+
+{% block operator %}
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-editformovie">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="genre/addGenre" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="genreName" class="form-control" name="genreName" value="{{request.form.genreName}}">
+                        <label for="genreName">Genre Name</label>
+                    </div>
+                    SELECT THE MOVIE TO ADD/REMOVE:
+                    <br><br>
+                    <select name="movieID">
+                        {% for movie in movies %}
+                            <option value={{movie.0}}>{{movie.1}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="genre/removeGenre" method="post">
+                <div class="modal-body">
+                    SELECT THE GENRE TO REMOVE:
+                    <br><br>
+                    <select name="genreType">
+                        {% for genre1 in genres1 %}
+                            <option value={{genre1.0}}>{{genre1.0}}</option>
+                        {% endfor %}
+                    </select>
+                    </br></br>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">REMOVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-editformovie" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="genre/editGenreforMovie" method="post">
+                <div class="modal-body">
+                    SELECT THE MOVIE TO ADD/REMOVE:
+                    <br><br>
+                    <select name="movieID">
+                        {% for movie in movies %}
+                            <option value={{movie.0}}>{{movie.1}}</option>
+                        {% endfor %}
+                    </select>
+                    </br></br>
+                    SELECT THE GENRE TO ADD/REMOVE:
+                    <br><br>
+                    <select name="genreType">
+                        {% for genre1 in genres1 %}
+                            <option value={{genre1.0}}>{{genre1.0}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">MODIFY</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+{% endblock %}

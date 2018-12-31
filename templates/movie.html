@@ -1,0 +1,152 @@
+{% extends "index.html" %}
+{% block body %}
+<h1>Movie</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/movie/idMovie" method="post">
+                    <input id="movieSortByID" type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/movie/MovieName" method="post">
+                    <input id="movieSortByName" type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="score">
+                <form action="/movie/MovieYear" method="post">
+                    <input id="movieSortByScore" type="submit" value="Score">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/movie/Movie_Director" method="post">
+                    <input id="movieSortByScore" type="submit" value="Director">
+                </form>
+            </th>
+           <th style="text-indent:3em" data-field="year">
+                <form action="/movie/MovieYear" method="post">
+                    <input id="movieSortByYear" type="submit" value="Release Year">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+        <a href="#">
+            <tr>
+                <td>{{ movie.0 }}</td>
+                <td style="text-indent:3em">{{ movie.1 }}</td>
+                <td style="text-indent:5em">{{ movie.2 }}</td>
+                <td style="text-indent:3em">{{ movie.3 }}</td>
+                <td style="text-indent:3em">{{ movie.7 }}</td>
+            </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block operator %}
+
+{% if tag=='Super User'%}
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/addMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control"  name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="relaseYear" class="form-control"  name="relaseYear" value="{{request.form.relaseYear}}">
+                    <label for="relaseYear">Relased Year</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">ADD</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/removeMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
+                    <label for="movieID">Movie ID</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">REMOVE</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal Modify -->
+<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/editMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
+                    <label for="movieID">Movie ID</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="relaseYear" class="form-control" name="relaseYear" value="{{request.form.relaseYear}}">
+                    <label for="relaseYear">Relased Year</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">MODIFY</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

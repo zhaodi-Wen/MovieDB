@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+<h1>Attend</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/attend/idShowing" method="post">
+                    <input id="showingID" type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movieName">
+                <form action="/attend/MovieName" method="post">
+                    <input id="movieName" type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="showTime">
+                <form action="/attend/ShowingDateTime" method="post">
+                    <input id="showTime" type="submit" value="Time">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="FirstName">
+                <form action="/attend/FirstName" method="post">
+                    <input id="FirstName" type="submit" value="First Name">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="LastName">
+                <form action="/attend/LastName" method="post">
+                    <input id="LastName" type="submit" value="Last Name">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="Rating">
+                <form action="/attend/Rating" method="post">
+                    <input id="Rating" type="submit" value="Rating">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attend in attends %}
+        <a href="#">
+        <tr>
+            <td>{{ attend.0 }}</td>
+            <td style="text-indent:3em">{{ attend.1 }}</td>
+            <td style="text-indent:3em">{{ attend.2 }}</td>
+            <td style="text-indent:3em">{{ attend.3 }}</td>
+            <td style="text-indent:3em">{{ attend.4 }}</td>
+            <td style="text-indent:3em">{{ attend.5 }}</td>
+        </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

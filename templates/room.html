@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+<h1> Room </h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="RoomNo">
+                <input id="RoomNo" type="submit" value="Room No.">
+            </th>
+            <th data-field="Capacity" style="text-indent:3em">
+                <input id="Capacity" type="submit" value="Capacity">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for room in rooms %}
+        <a href="#">
+            <tr>
+                <td>{{ room.0 }}</td>
+                <td style="text-indent:3em">{{ room.1 }}</td>
+            </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+
+{% block operator %}
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="room/addRoom" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="roomNo" class="form-control" name="roomNo" value="{{request.form.roomNo}}">
+                        <label for="roomNo">Room No.</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="capacity" class="form-control" name="capacity" value="{{request.form.capacity}}">
+                        <label for="capacity">Capacity</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="room/removeRoom" method="post">
+                <div class="modal-body">
+                    SELECT THE ROOM TO REMOVE:
+                    <select name="roomNo">
+                        {% for room in rooms %}
+                            <option value={{room.0}}>{{room.0}}</option>
+                        {% endfor %}
+                    </select>
+                    </br></br>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">REMOVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="room/editRoom" method="post">
+                <div class="modal-body">
+                    SELECT THE ROOM TO Edit:
+                    <select name="roomNo">
+                        {% for room in rooms %}
+                            <option value={{room.0}}>{{room.0}}</option>
+                        {% endfor %}
+                    </select>
+                    </br></br>
+                    <div class="md-form">
+                        <input type="text" id="capacity" class="form-control" name="capacity" value="{{request.form.capacity}}">
+                        <label for="capacity">Capacity</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">MODIFY</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+{% endblock %}
