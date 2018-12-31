@@ -25,7 +25,7 @@
  5. 运行 "python app.py" 
  6. ctrl+c 退出
 
-##设计
+## 设计
 
 
  * 运行app.py 进图界面后，点击register ,写入个人信息,目前使用英文
