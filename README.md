@@ -3,21 +3,22 @@
 
 
 ## 使用条件
-###①使用虚拟环境
+### ①使用虚拟环境
+
  * python3
  * python3-pip: sudo apt install python3-pip
  * virtualenv: sudo pip3 install virtualenv
  * mysql-server: sudo apt install mysql-server
  * 激活虚拟环境: sudo ./env/bin/activate
- ###②使用anaconda为环境
+ ### ②使用anaconda为环境
+ 
  
  * 运行 sudo apt-get install mysql-server
  * 接着是 sudo apt-get install libmysqlclient-dev python3-dev
  * 运行pip install -r requirements.txt安装必要的库
  * pip install mysql-connector-python-rf
  
-##运行
-###
+## 运行
  
  1. 导入数据库db.sql: mysql -uroot -p -- < /path/to/prject/folder/db.sql
  2 然后运行python dataset.py导入电影的数据,电影的数据是我之前的一个项目爬的豆瓣的，具体的可以访问https://github.com/zhaodi-Wen/DouBanMovie
@@ -25,6 +26,8 @@
  6. ctrl+c 退出
 
 ##设计
+
+
  * 运行app.py 进图界面后，点击register ,写入个人信息,目前使用英文
  * 然后进入页面,点击页面中的Movie可以看到所有电影,点击高亮的Movie 会按照名字排序,Score会按照分数排序
  * 使用超级用户登录 在注册页面  
@@ -48,6 +51,7 @@ The staff who work at a theatre must be able to:
         查看购票的记录 
     Attend
         查看观看电影的消费者的记录，包括评分的记录
+        
 Part 2: 一般用户的功能
         注册包括First Name,Last Name,Email 和Password
 
@@ -68,4 +72,5 @@ Part 2: 一般用户的功能
     
 
 Vulnerable
+
     一个简单的Demo
