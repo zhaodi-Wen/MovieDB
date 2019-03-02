@@ -74,3 +74,45 @@ Part 2: 一般用户的功能
 Vulnerable
 
     一个简单的Demo
+## 登录界面
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/3.png) 
+## 注册界面
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/4.png) 
+## 进入界面
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/5.png) 
+## 查看电影
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/6.png) 
+## 根据种类查看放映信息
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/7.png) 
+## 添加电影种类
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/8.png) 
+## 购票
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/9.png) 
+## 然后在个人信息中查看自己的购票信息
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/10.png) 
+## 给观看的电影打分
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/11.png) 
+## 在个人信息中看到自己的打分情况
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/12.png) 
+## 查看电影放映情况
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/13.png) 
+## 修改个人账号信息
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/14.png) 
+
+超级用户(管理员)
+##  查看注册的人
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/15.png) 
+## 管理电影院的电影
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/16.png) 
+## 管理电影放映时间
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/17.png) 
+## 查看购票入场的消费者的信息
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/18.png) 
+## 管理电影院放映厅
+![](https://github.com/zhaodi-Wen/MovieDB/blob/master/img/19.png) 
+
+
+
+
+
+
